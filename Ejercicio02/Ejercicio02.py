@@ -36,23 +36,47 @@ class Ordenamiento(ABC):
     def ordenar(self, canciones: List[Cancion]) -> List[Cancion]:
         pass
 
+    def merge_sort(self, arr: List[Cancion], compare_func) -> List[Cancion]:
+        if len(arr) <= 1:
+            return arr
+        mid = len(arr) // 2
+        left = arr[:mid]
+        right = arr[mid:]
+        left = self.merge_sort(left, compare_func)
+        right = self.merge_sort(right, compare_func)
+        return self.merge(left, right, compare_func)
+
+    def merge(self, left: List[Cancion], right: List[Cancion], compare_func) -> List[Cancion]:
+        result = []
+        i = j = 0
+        while i < len(left) and j < len(right):
+            if compare_func(left[i], right[j]):
+                result.append(left[i])
+                i += 1
+            else:
+                result.append(right[j])
+                j += 1
+        result.extend(left[i:])
+        result.extend(right[j:])
+        return result
+
 
 # Estrategia de ordenamiento por nombre de canción
 class OrdenarPorNombre(Ordenamiento):
     def ordenar(self, canciones: List[Cancion]) -> List[Cancion]:
-        return sorted(canciones, key=lambda x: x.nombre_cancion)
+        return self.merge_sort(canciones, lambda x, y: x.nombre_cancion < y.nombre_cancion)
 
 
 # Estrategia de ordenamiento por artista y nombre de canción
 class OrdenarPorArtista(Ordenamiento):
     def ordenar(self, canciones: List[Cancion]) -> List[Cancion]:
-        return sorted(canciones, key=lambda x: (x.artista, x.nombre_cancion))
+        return self.merge_sort(canciones, lambda x, y: (x.artista, x.nombre_cancion) < (y.artista, y.nombre_cancion))   
 
 
 # Estrategia de ordenamiento por fecha de lanzamiento y nombre de canción
 class OrdenarPorFecha(Ordenamiento):
     def ordenar(self, canciones: List[Cancion]) -> List[Cancion]:
-        return sorted(canciones, key=lambda x: (x.release_date, x.nombre_cancion))
+        return self.merge_sort(canciones, lambda x, y: (x.release_date, x.nombre_cancion) < (y.release_date, y.nombre_cancion))
 
 
 # Clase para representar una playlist de canciones
