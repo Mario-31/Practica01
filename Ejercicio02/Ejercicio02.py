@@ -2,7 +2,21 @@ from abc import ABC, abstractmethod
 from typing import List
 from random import randint
 
+"""
+En general está muy bien.
+No hay muchos errores PEP8
+Respecto a la clase playlist hay que reestructurarla un poquito.
+Y para ordenar aunque evidentemente funcionan los lambdas, se tenía que
+ver cómo manipulaban el código del ordenamiento para poder ordenar bajo esas
+condiciones.
+
+5.5
+"""
+
 # Clase para manejar fechas en formato "dd/mm/aaaa"
+"""
+Excelente, sólo recuerden que estamos definiendo clases abstractas también.
+"""
 class Fecha:
     def __init__(self, fecha: str):
         # Dividir la fecha en día, mes y año
@@ -17,8 +31,12 @@ class Fecha:
         return self.dia < other.dia
 
 
+"""
+Muy bien!
+"""
 # Clase para representar una canción
 class Cancion:
+    # Hay más de 79 caracteres por línea
     def __init__(self, nombre_cancion: str, duracion: str, artista: str, release_date: str):
         self.nombre_cancion = nombre_cancion
         self.duracion = duracion
@@ -61,6 +79,10 @@ class Ordenamiento(ABC):
         return result
 
 
+"""
+Bueno lo ideal era buscar la forma de modificar directamente el código
+(en este caso merge) para poder ordenar de acuerdo a la condición.
+"""
 # Estrategia de ordenamiento por nombre de canción
 class OrdenarPorNombre(Ordenamiento):
     def ordenar(self, canciones: List[Cancion]) -> List[Cancion]:
@@ -80,6 +102,12 @@ class OrdenarPorFecha(Ordenamiento):
 
 
 # Clase para representar una playlist de canciones
+"""
+La clase está casi bien, no queremos crear diferentes objetos Playlist para
+cada ordenamiento, realmente queremos poder ordenar con el mismo playlist.
+Entonces deberia poder crearse sin tener que pasar como parámetro qué
+ordenamiento queremos.
+"""
 class Playlist:
     def __init__(self, ordenamiento: Ordenamiento):
         self.canciones = []
@@ -95,6 +123,9 @@ class Playlist:
 
     # Método para imprimir la playlist
     def __str__(self):
+        """
+        Quizá queda mejor si le damos formato, al menos el numeral.
+        """
         self.ordenar_canciones()
         return "\n".join(str(cancion) for cancion in self.canciones)
 
