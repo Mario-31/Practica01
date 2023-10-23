@@ -37,3 +37,5 @@ condiciones.
 - Ejercicio02 (6 pts): 5.5
 
 ### Total: 7.5
+
+En este trabajo realizamos la práctica en conjunto, en su mayoría lo resolvimos en la escuela y los pocos detalles fueron terminados en casa
